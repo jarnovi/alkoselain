@@ -24,6 +24,7 @@
         echo "<p>Connection failed: " . $e->getMessage(). " </p>";
     }
   }
+
   function create_table(){
     global $servername,$username,$password,$dbname,$tablename;
     //tehdään uusi taulukko, mikäli ei ole olemassa.
@@ -51,22 +52,7 @@
     }
   }
 
-  function SQLGetUserByUserName($uname){
-    global $servername,$username,$password,$dbname,$tablename;
-    $sql = sprintf("SELECT friend_id, firstname, psswrd FROM %s WHERE username LIKE '%s';",
-    $tablename, $uname);
-    try {
-      $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-      // set the PDO error mode to exception
-      #$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $sth = $conn->prepare($sql);
-      $sth -> execute();
-      $result = $sth->fetch();
-      } catch(PDOException $e) {
-       echo "<p>Connection failed: " . $e->getMessage(). " </p>";
-      }
-      return $result; 
-  }
+
   function SQLtop20($sort,$dir,$maara,$alku){
     if ($dir != "DESC") $dir = "ASC";
     global $servername,$username,$password,$dbname,$tablename;
@@ -86,8 +72,6 @@
     global $servername,$username,$password,$dbname,$tablename;
     $sql= sprintf( "INSERT INTO %s VALUES( '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');",
     $tablename,$numero,$nimi,$valmistaja,$pullokoko,$hinta,$litrahinta,$tyyppi,$valmistusmaa,$vuosikerta,$alkoholiprosentti,$energia);
-
-
     try {
       $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
       // set the PDO error mode to exception
@@ -97,7 +81,6 @@
       } catch(PDOException $e) {
       echo "<p>Connection failed: " . $e->getMessage(). " </p>";
   }
-
 
   }
 

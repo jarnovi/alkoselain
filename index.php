@@ -7,6 +7,9 @@
 <?php 
  include_once 'alkofunktiot.php';
 
+//  tällä kopioidaan xlsx-tiedot kantaan.. php.ini asetuksista pitää ehkä time to live-arvoa kasvattaa päälle 200 sekunnin
+// kommentoitu ettei vahingossakaan tule tuota parametria webbisivulta
+
 #if ($_GET["updatedb"]){excel2db();}
 #excel2db('orig_alkon-hinnasto-tekstitiedostona.xlsx');
 
@@ -18,26 +21,22 @@ $offset = isset($_GET['alku'])      ? intval($_GET['alku'])>0 ? intval($_GET['al
 $maara  = isset($_GET['maara'])     ? intval($_GET['maara'])>0 ? intval($_GET['maara']) : 25:25 ;
 $filter = isset($_GET['filter'])    ? $_GET['filter'] : NAN;
 
-
+// tehdään CSS määrittelyt $_GETistä, koska miksi ei?  
 print("<style>.title th:nth-child($sort){background-color:#1f1f1f !important;}
     th:nth-child($sort) a{color:white !important}</style>");
 
+
+//  lasketaan nappien muutokset     
 $prevoffs=$offset-$maara;
 $nextoffs=$offset+$maara;
-
-
 
 $postStringn="jarjesta=$sort&suunta=$dir&alku=$nextoffs&maara=$maara&filter=$filter";
 $postStringp="jarjesta=$sort&suunta=$dir&alku=$prevoffs&maara=$maara&filter=$filter";
 
-#print('<h1>Alkon tuotteet:</h1>');
-#print("<h2>$sort => $sarakkeet[$sort]</h2>");
-#print_r($_GET);
-foreach ($_GET as $stuff){
-#    print_r($stuff);
-}
+// tulostaa taulukon
 top20($sort,$dir,$maara,$offset);
 
+// tulostaa napit
 print('<button onclick="window.location.href=\'index.php?'.$postStringp.'\';">aikaisempi</button>');
 print('<button onclick="window.location.href=\'index.php?'.$postStringn.'\';">seuraava</button>');
 
