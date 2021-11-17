@@ -13,9 +13,7 @@ h1{
   
 table { 
     width: 100%;
-    b_border: gray 1px solid;
     border-radius: 7px;
-    _box-shadow: 0px 0px 15px #519bbb, 0 0 10px whitesmoke;
     border-spacing: 0px;
     border-collapse: separate;
 }
