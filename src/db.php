@@ -52,17 +52,16 @@ class DB
 		}
 	}
 
-	public function get_latest_import_batch()
+	public function get_latest_import_batch(): ?ImportBatch
 	{
 		$result = $this->mysqli->query("SELECT * FROM import_batch ORDER BY id DESC LIMIT 1");
-		if ($result == false)
-			throw new Exception("Failed to query DB");
+		assert($result != false);
 		return $result->fetch_object("ImportBatch");
 	}
 
 	function fetch_drinks($import_batch, $sort_by, $direction, $amount, $start)
 	{
-		if ($direction != "DESC") $dir = "ASC";
+		if ($direction != "DESC") $direction = "ASC";
 
 		$smtp = $this->mysqli->prepare("SELECT * FROM drink WHERE import_batch = ? ORDER BY ? ? LIMIT ? ?;");
 		$smtp->bind_param("issii", $import_batch, $sort_by, $direction, $start, $amount);
