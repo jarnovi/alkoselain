@@ -1,8 +1,20 @@
 <?php
 /** Page meant for admins for refreshing the data. */
 
-echo "TODO";
-exit(1);
+require_once "fetcher.php";
+require_once "importer.php";
+$db =require_once "db.php";
+
+$db->migrate_db();
+
+$file = fetch_xlxs();
+$drinks = xlxs_to_drinks($file);
+$import_batch_id = $db->create_import_batch();
+foreach ($drinks as $drink) {
+	$drink->import_batch = $import_batch_id;
+}
+
+$db->add_drinks($drink);
 ?>
 
 
