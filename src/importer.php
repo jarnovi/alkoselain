@@ -1,8 +1,8 @@
 <?php
 /** Importing functionality. That is, turning the fetched excel data into our format and storing it. */
 
-include_once "model.php";
-include_once 'SimpleXLSX.php';
+require_once "model.php";
+require_once 'SimpleXLSX.php';
 
 function xlxs_to_drinks($file_contents)
 {
