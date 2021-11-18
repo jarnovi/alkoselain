@@ -11,7 +11,10 @@ services:
     volumes:
       - "./db:/var/lib/mysql"
   nginx:
-    image: trafex/php-nginx
+    image: alkoselain
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.nginx
     depends_on: 
       - db
     ports:
