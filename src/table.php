@@ -46,7 +46,7 @@ class TableCreator {
 		$val = "<tr>";
 		
 		foreach ($columns_to_display as $column_to_display) {
-			$val .= "<tr>" . $column_to_display . "</tr>";
+			$val .= "<th>" . $column_to_display . "</th>";
 		}
 		
 		
@@ -61,7 +61,7 @@ class TableCreator {
 			$val .= "<th><input name='" . TableCreator::COLUMN_NAMES[$column_to_display] . "' placeholder='" . TableCreator::COLUMN_NAMES[$column_to_display] . "' type='text'/></th>";
 		}
 		
-		return $val ."<tr>";
+		return $val ."</tr>";
 	}
 	
 	private function create_body_rows(array $columns_to_display, array $drinks): string {
