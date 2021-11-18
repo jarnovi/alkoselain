@@ -46,9 +46,19 @@ class TableCreator {
 	}
 
 	private function create_filter_row(array $columns_to_display): string {
-		$val = "<tr>";
-
-		$val .= "</tr>";
+		$val = "<tr class='title'>
+			<th class='small'><a href='index.php?jarjesta=1'>numero</a></th>
+			<th><a href='index.php?jarjesta=2'>nimi</a></th>
+			<th><a href='index.php?jarjesta=3'>valmistaja</a></th>
+			<th class='small'><a href='index.php?jarjesta=4'>Pullokoko</a></th>
+			<th class='small'><a href='index.php?jarjesta=5'>hinta</a></th>
+			<th class='small'><a href='index.php?jarjesta=6'>litrahinta</a></th>
+			<th><a href='index.php?jarjesta=7'>tyyppi</a></th>
+			<th><a href='index.php?jarjesta=8'>valmistusmaa</a></th>
+			<th class='small'><a href='index.php?jarjesta=9'>vuosikerta</a></th>
+			<th class='small'><a href='index.php?jarjesta=10'>alkoholi-%</a></th>
+			<th class='small'><a href='index.php?jarjesta=11'>energia</a></th>
+		</tr>";
 		return $val;
 	}
 
