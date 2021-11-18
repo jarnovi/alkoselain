@@ -63,6 +63,7 @@ button{
     border-style: none;
     height:30px;
     margin:2px;
+    width:90px;
 }
 button:hover{
     background-color: #0f4167;
