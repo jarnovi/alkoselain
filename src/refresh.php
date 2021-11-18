@@ -8,13 +8,13 @@ $db =require_once "db.php";
 $db->migrate_db();
 
 $file = fetch_xlxs();
-$drinks = xlxs_to_drinks($file);
-$import_batch_id = $db->create_import_batch();
-foreach ($drinks as $drink) {
-	$drink->import_batch = $import_batch_id;
-}
+$importer = new Importer($file);
 
-$db->add_drinks($drink);
+//var_dump($importer);
+
+$import_batch_id = $db->create_import_batch($importer->date);
+$importer->set_import_batch_id($import_batch_id);
+$db->add_drinks($importer->drinks);
 ?>
 
 
