@@ -88,13 +88,32 @@ class DB
 			assert(is_int($drink->number));
 		}
 
-		$smtp = $this->mysqli->prepare("INSERT INTO drink (
-			import_batch, number, name, manufacturer, size_in_milliliters, type, price_in_cents,
-			price_in_cents_per_liter, origin, vintage, promille, kcal_per_hundred_ml)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+		$smtp = $this->mysqli->prepare(
+			"INSERT INTO drink (
+				import_batch, number, name, manufacturer, size_in_milliliters, type, price_in_cents,
+				price_in_cents_per_liter, origin, vintage, promille, kcal_per_hundred_ml
+			)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+		);
+
+		// TODO: Error Handling.
 
 		foreach ($drinks as $drink) {
-			$smtp->bind_param("iissisiisiii", $sort_by, $direction, $start, $amount);
+			$smtp->bind_param(
+				"iissisiisiii",
+				$drink->import_batch,
+				$drink->number,
+				$drink->name,
+				$drink->manufacturer,
+				$drink->size_in_milliliters,
+				$drink->type,
+				$drink->price,
+				$drink->price_per_liter,
+				$drink->origin,
+				$drink->vintage,
+				$drink->promille,
+				$drink->kcal_per_hundred_ml,
+			);
 			$smtp->execute();
 		}
 	}
@@ -102,9 +121,9 @@ class DB
 	function create_import_batch($date): int
 	{
 		$smtp = $this->mysqli->prepare("INSERT INTO import_batch (date) VALUES (?);");
-		$stmt->bind_param("s", $date);
+		$smtp->bind_param("s", $date);
 
-		assert($stmt->execute() != false);
+		assert($smtp->execute() != false);
 		$id = $this->mysqli->insert_id;
 
 		return $id;
