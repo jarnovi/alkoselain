@@ -25,8 +25,12 @@ $db->add_drinks($drink);
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>AlkoSelain</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 </head>
 <body>
-	Data päivitetty onnistuneesti.
+	<main>
+		<h1>Ok</h1>
+		<p>Data päivitetty onnistuneesti.</p>
+	</main>
 </body>
 </html>
