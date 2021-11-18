@@ -1,69 +1,48 @@
-<!doctype html>
-    <html>
-    <head><title>rahalla saa ja alkolla pääsee</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link href="../static/style.css" rel="stylesheet" />
-    </head>
+<?php 
+require_once "model.php";
+$db = require_once "db.php";
+$table_creator = require_once "table.php";
+
+$COLUMNS=["number","name","manufacturer","size","price","price_per_liter","type","origin","vintage","percentage","energy"];
+
+
+
+$sort = isset($_GET['jarjesta']) ? intval($_GET['jarjesta'])>0? intval($_GET['jarjesta']) : 2: 2 ;  
+$direction = isset($_GET['suunta']) ? $_GET['suunta']=='laskeva' ? 'DESC' : 'ASC':'ASC' ;
+$offset = isset($_GET['alku']) ? intval($_GET['alku'])>0 ? intval($_GET['alku']) : 0:0 ;
+$amount = isset($_GET['maara']) ? intval($_GET['maara'])>0 ? intval($_GET['maara']) : 25:25 ;
+
+
+//  lasketaan nappien muutokset     
+$previous_offset=$offset-$amount;
+$next_offser=$offset+$amount;
+
+$db->migrate_db();
+$latest_import_batch = $db->get_latest_import_batch();
+$drinks = $db->fetch_drinks($latest_import_batch->$id, $sort, $direction, $amount, $offset);
+
+$table_html = $table_creator->create($columns, $drinks);
+
+$next_page_query="jarjesta=$sort&suunta=$direction&alku=$next_offser&maara=$amount";
+$prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$amount";
+?>
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AlkoSelain/</title>
+    <link href="./style.css" rel="stylesheet" />
+</head>
 <body>
-
-<div class="info-container">
-    <h1>Alkon Hinnasto</h1> <!-- TODO: päivämäärä -->
-</div>
-
-<div class="filters-container">
-    <h2 style="text-align: center"> Tänne kaikki filtterit</h2>
-
-    <div class="tyypit">
-
-    </div>
-
-</div>
-
-
-</divfilters-container>
-<div.sheet-container>
-    <?php
-    include_once 'alkofunktiot.php';
-
-    //  tällä kopioidaan xlsx-tiedot kantaan.. php.ini asetuksista pitää ehkä time to live-arvoa kasvattaa päälle 200 sekunnin
-    // kommentoitu ettei vahingossakaan tule tuota parametria webbisivulta
-
-    #if ($_GET["updatedb"]){excel2db();}
-    #excel2db('orig_alkon-hinnasto-tekstitiedostona.xlsx');
-
-    $sarakkeet=["numero","nimi","valmistaja","pullokoko","hinta","litrahinta","tyyppi","valmistusmaa","vuosikerta","alkoholiprosentti","energia"];
-
-    $sort   = isset($_GET['jarjesta'])  ? (int)$_GET['jarjesta'] >0? (int)$_GET['jarjesta'] : 2: 2 ;
-    $dir    = isset($_GET['suunta'])    ? $_GET['suunta']=='laskeva' ? 'DESC' : 'ASC':'ASC' ;
-    $offset = isset($_GET['alku'])      ? (int)$_GET['alku'] >0 ? (int)$_GET['alku'] : 0:0 ;
-    $maara  = isset($_GET['maara'])     ? (int)$_GET['maara'] >0 ? (int)$_GET['maara'] : 25:25 ;
-    $filter = isset($_GET['filter'])    ? $_GET['filter'] : NAN;
-
-    // tehdään CSS määrittelyt $_GETistä, koska miksi ei?
-    print("<style>.title th:nth-child($sort){background-color:#1f1f1f !important;}
-    th:nth-child($sort) a{color:white !important}</style>");
-
-
-    //  lasketaan nappien muutokset
-    $prevoffs=$offset-$maara;
-    $nextoffs=$offset+$maara;
-
-    $postStringn="jarjesta=$sort&suunta=$dir&alku=$nextoffs&maara=$maara&filter=$filter";
-    $postStringp="jarjesta=$sort&suunta=$dir&alku=$prevoffs&maara=$maara&filter=$filter";
-
-    // tulostaa taulukon
-    top20($sort,$dir,$maara,$offset);
-
-    // tulostaa napit
-    print('<button onclick="window.location.href=\'index.php?'.$postStringp.'\';">aikaisempi</button>');
-    print('<button onclick="window.location.href=\'index.php?'.$postStringn.'\';">seuraava</button>');
-
-
-
-    ?>
-</div.sheet-container>
-
+	<header>
+		<h1>Alkon tuotekatalogi <time datetime="<?php echo date("Y-m-d", $latest_import_batch->$date); ?>"><?php echo date("d.m.Y", $latest_import_batch->$date); ?></time></h1>
+	</header>
+	<main>
+		<?php echo $table_html; ?>
+		<a href="?<?= $prev_page_query ?>">aikaisempi</a>
+		<a href="?<?= $next_page_query ?>">seuraava</a>
+	</main>
 </body>
 </html>
