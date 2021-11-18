@@ -101,9 +101,6 @@ class DB
 
 	function create_import_batch($date): int
 	{
-		assert($drink instanceof Drink);
-		assert(is_int($drink->import_batch));
-
 		$smtp = $this->mysqli->prepare("INSERT INTO import_batch (date) VALUES (?);");
 		$stmt->bind_param("s", $date);
 
