@@ -19,9 +19,13 @@ $next_offser=$offset+$amount;
 
 $db->migrate_db();
 $latest_import_batch = $db->get_latest_import_batch();
-$drinks = $db->fetch_drinks($latest_import_batch->$id, $sort, $direction, $amount, $offset);
 
-$table_html = $table_creator->create($columns, $drinks);
+$drinks = [];
+
+if ($latest_import_batch) {
+	$db->fetch_drinks($latest_import_batch->$id, $sort, $direction, $amount, $offset);
+}
+$table_html = $table_creator->create($COLUMNS, $drinks);
 
 $next_page_query="jarjesta=$sort&suunta=$direction&alku=$next_offser&maara=$amount";
 $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$amount";
