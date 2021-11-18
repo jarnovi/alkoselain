@@ -31,8 +31,8 @@ class Drink {
 	public string $origin;
 	/** The year in which the drink was produced */
 	public int $vintage;
-	/** The alcoholic % of the drink */
-	public int $percentage;
+	/** The alcoholic ‰ (1/1000) of the drink. 10 ‰ = 1 % */
+	public int $promille;
 	/** The drink's kcal/100ml */
 	public int $kcal_per_hundred_ml;
 }

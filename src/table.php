@@ -16,7 +16,7 @@ class TableCreator {
 		"type" => "tyyppi",
 		"origin" => "valmistusmaa",
 		"vintage" => "vuosikerta",
-		"percentage" => "alkoholiprosentti",
+		"percentage" => "alkoholi %",
 		"energy" => "energia"
 	];
 	
@@ -103,7 +103,7 @@ class TableCreator {
 						$val .= $drink->vintage;
 						break;
 					case "percentage":
-						$val .= $drink->percentage;
+						$val .= ($drink->promille / 10);
 						break;
 					case "energy":
 						$val .= $drink->kcal_per_hundred_ml;
