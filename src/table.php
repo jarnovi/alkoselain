@@ -46,7 +46,7 @@ class TableCreator {
 		$val = "<tr>";
 		
 		foreach ($columns_to_display as $column_to_display) {
-			$val .= "<th>" . $column_to_display . "</th>";
+			$val .= "<th>" . TableCreator::COLUMN_NAMES[$column_to_display] . "</th>";
 		}
 		
 		
