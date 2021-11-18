@@ -4,9 +4,9 @@
 require_once "model.php";
 require_once 'SimpleXLSX.php';
 
-function xlxs_to_drinks($file_contents)
+function xlxs_to_drinks($file)
 {
-	$xlsx = SimpleXLSX::parseData($file_contents);
+	$xlsx = SimpleXLSX::parseData($file);
 	if (!$xlsx->success()) throw new Exception($xlsx->error());
 
 	$rows =  $xlsx->rows();
