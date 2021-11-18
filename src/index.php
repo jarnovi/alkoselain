@@ -41,7 +41,18 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
 </head>
 <body>
 	<header>
-		<h1>Alkon tuotekatalogi <time datetime="<?php echo date("Y-m-d", $latest_import_batch->$date); ?>"><?php echo date("d.m.Y", $latest_import_batch->$date); ?></time></h1>
+		<h1>Alkon tuotekatalogi</h1>
+		<?php 
+			if ($latest_import_batch) {
+				echo "<!--" . $latest_import_batch->$id . "-->";
+				echo "<p>Päivitetty viimeksi: <time datetime='" 
+					. date("Y-m-d", $latest_import_batch->$date) . "/>"
+					. date("d.m.Y", $latest_import_batch->$date) . "</time></p>";
+			}  else {
+				echo "<p>Varoitus! Tietoja ei löytynyt.</p>";
+				echo "<p>Jos olet admini, hae <a href='/refresh.php'>uudet tiedot</a></p>";
+			}
+		?>
 	</header>
 	<main>
 		<?php echo $table_html; ?>
