@@ -65,6 +65,7 @@ class TableCreator {
 	}
 	
 	private function create_body_rows(array $columns_to_display, array $drinks): string {
+		$val = "";
 		foreach ($drinks as $drink) {
 			assert($drink instanceof Drink);
 			
