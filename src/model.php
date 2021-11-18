@@ -15,6 +15,8 @@ class Drink {
 	private int $import_batch;
 	/** The product number given to the drink by Alko */
 	public int $number;
+	/** The price of the product, in Euro Cents */
+	public int $price;
 	/** The name of the drink */
 	public string $name;
 	/** The name of the drink's manufacturer */
