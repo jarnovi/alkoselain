@@ -4,7 +4,7 @@
 require_once "model.php";
 require_once 'SimpleXLSX.php';
 
-function xlxs_to_drinks($file)
+function xlxs_to_drinks(string $file): array
 {
 	$xlsx = SimpleXLSX::parseData($file);
 	if (!$xlsx->success()) throw new Exception($xlsx->error());
@@ -22,18 +22,30 @@ function xlxs_to_drinks($file)
 
 		// TODO: Propper type conversions
 
-		$drink = new Drink();
-		$drink->number = $current_row[0];
-		$drink->name = $current_row[1];
-		$drink->manufacturer = $current_row[2];
-		$drink->size_in_milliliters = $current_row[3];
-		$drink->price = $current_row[4];
-		$drink->price_per_liter = $current_row[5];
-		$drink->type = $current_row[8];
-		$drink->origin = $current_row[12];
-		$drink->vintage = $current_row[14];
-		$drink->percentage = $current_row[21];
-		$drink->kcal_per_hundred_ml = $current_row[27];
+		try {
+			$drink = new Drink();
+			$drink->number = $current_row[0];
+			$drink->name = $current_row[1];
+			$drink->manufacturer = $current_row[2];
+
+			$size_matches = [];
+			if (mb_eregi("/([0-9]+(,[0-9]+)?) l/", $current_row[3], $size_matches)) {
+				$drink->size_in_milliliters = intval(floatval($size_matches[0]) * 1000);
+			} else {
+				throw new Exception("Unknown drink amount format for drink $drink->number");
+			}
+			
+			$drink->price = intval(floatval($current_row[4]) * 100);
+			$drink->price_per_liter = intval(floatval($current_row[5]) * 100);
+			$drink->type = $current_row[8];
+			$drink->origin = $current_row[12];
+			$drink->vintage = $current_row[14];
+			$drink->promille = intval(floatval($current_row[21]) * 100);
+			$drink->kcal_per_hundred_ml = $current_row[27];
+			array_push($drinks, $drink);
+		} catch (Exception $ex) {
+			error_log($ex);
+		}
 	}
 
 	return $drinks;
