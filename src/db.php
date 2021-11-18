@@ -36,7 +36,7 @@ class DB
           price_in_cents_per_liter INT NOT NULL,
 					origin TEXT,
 					vintage YEAR(4),
-					percentage INT,
+					promille INT,
 					kcal_per_hundred_ml INT,
 					PRIMARY KEY(number, import_batch),
 					FOREIGN KEY(import_batch) REFERENCES import_batch(id)
@@ -79,7 +79,7 @@ class DB
 		return $drinks;
 	}
 
-	function add_drinks($drinks)
+	function add_drinks(array $drinks)
 	{
 		foreach ($drinks as $drink) {
 			assert($drink instanceof Drink);
@@ -90,7 +90,7 @@ class DB
 
 		$smtp = $this->mysqli->prepare("INSERT INTO drink (
 			import_batch, number, name, manufacturer, size_in_milliliters, type, price_in_cents,
-			price_in_cents_per_liter, origin, vintage, percentage, kcal_per_hundred_ml)
+			price_in_cents_per_liter, origin, vintage, promille, kcal_per_hundred_ml)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 		foreach ($drinks as $drink) {
@@ -99,7 +99,7 @@ class DB
 		}
 	}
 
-	function create_import_batch($date)
+	function create_import_batch($date): int
 	{
 		assert($drink instanceof Drink);
 		assert(is_int($drink->import_batch));
