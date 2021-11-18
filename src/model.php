@@ -12,11 +12,13 @@ class ImportBatch {
 /** The main drink class. */
 class Drink {
 	/** The ID of the import batch, used as a part of the PK */
-	private int $import_batch;
+	public int $import_batch;
 	/** The product number given to the drink by Alko */
 	public int $number;
 	/** The price of the product, in Euro Cents */
 	public int $price;
+	/** The price of a liter of the product, in Euro Cents */
+	public int $price_per_liter;
 	/** The name of the drink */
 	public string $name;
 	/** The name of the drink's manufacturer */
