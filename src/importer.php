@@ -62,6 +62,7 @@ class Importer {
 		$drink->promille = intval(floatval($row[21]) * 100);
 		$drink->kcal_per_hundred_ml = intval($row[27]);
 
+		$drink->validate(true);
 		return $drink;
 	}
 }
