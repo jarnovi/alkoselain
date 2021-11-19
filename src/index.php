@@ -44,10 +44,10 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
 		<h1>Alkon tuotekatalogi</h1>
 		<?php 
 			if ($latest_import_batch) {
-				echo "<!--" . $latest_import_batch->$id . "-->";
+				echo "<!--" . $latest_import_batch->id . "-->";
 				echo "<p>Päivitetty viimeksi: <time datetime='" 
-					. date("Y-m-d", $latest_import_batch->$date) . "/>"
-					. date("d.m.Y", $latest_import_batch->$date) . "</time></p>";
+					. $latest_import_batch->date->format("Y-m-d") . "/>"
+					. $latest_import_batch->date->format("d.m.Y") . "</time></p>";
 			}  else {
 				echo "<p>Varoitus! Tietoja ei löytynyt.</p>";
 				echo "<p>Jos olet admini, hae <a href='/refresh.php'>uudet tiedot</a></p>";
