@@ -68,12 +68,19 @@ class DB
 	{
 		if ($direction != "DESC") $direction = "ASC";
 
-		$smtp = $this->mysqli->prepare("SELECT * FROM drink WHERE import_batch = ? ORDER BY ? ? LIMIT ? ?;");
+		if (!is_int($import_batch) || !is_int($amount) || !is_int($start) || $amount > 100)
+			die("SQL safety validation failed.");
+
+		$smtp = $this->mysqli->prepare("SELECT * FROM drink
+			WHERE import_batch = '$import_batch'
+			ORDER BY ? $direction
+			LIMIT ?, ?;"
+		);
 		assert($smtp != false);
-		assert($smtp->bind_param("issii", $import_batch, $sort_by, $direction, $start, $amount));
+		assert($smtp->bind_param("sii", $sort_by, $start, $amount));
 
 		assert($smtp->execute());
-		$result = $stmt->get_result();
+		$result = $smtp->get_result();
 		assert($result != false);
 
 		$drinks = [];
