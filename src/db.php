@@ -3,7 +3,7 @@ require_once "model.php";
 
 class DB
 {
-	private $mysqli;
+	private mysqli $mysqli;
 
 	function __construct()
 	{
@@ -13,18 +13,18 @@ class DB
 
 	public function migrate_db()
 	{
-		$this->mysqli->begin_transaction();
+		assert($this->mysqli->begin_transaction());
 
 		try {
-
-			$this->mysqli->query(
+			$result = $this->mysqli->query(
 				"CREATE TABLE IF NOT EXISTS import_batch (
 					id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 					date DATETIME NOT NULL
 				);"
 			);
+			assert($result != false);
 
-			$this->mysqli->query(
+			$result = $this->mysqli->query(
 				"CREATE TABLE IF NOT EXISTS drink (
 					import_batch INT NOT NULL,
 					number INT NOT NULL,
@@ -42,10 +42,9 @@ class DB
 					FOREIGN KEY(import_batch) REFERENCES import_batch(id)
 				);"
 			);
+			assert($result != false);
 
-
-
-			$this->mysqli->commit();
+			assert($this->mysqli->commit());
 		} catch (mysqli_sql_exception $exception) {
 			$this->mysqli->rollback();
 			throw $exception;
@@ -58,15 +57,16 @@ class DB
 		assert($result != false);
 		$result = $result->fetch_object("ImportBatch");
 		assert($result != false);
-		return result;
+		return $result;
 	}
 
-	function fetch_drinks($import_batch, $sort_by, $direction, $amount, $start)
+	function fetch_drinks(int $import_batch, string $sort_by, string $direction, int $amount, int $start): array
 	{
 		if ($direction != "DESC") $direction = "ASC";
 
 		$smtp = $this->mysqli->prepare("SELECT * FROM drink WHERE import_batch = ? ORDER BY ? ? LIMIT ? ?;");
-		$smtp->bind_param("issii", $import_batch, $sort_by, $direction, $start, $amount);
+		assert($smtp != false);
+		assert($smtp->bind_param("issii", $import_batch, $sort_by, $direction, $start, $amount));
 
 		assert($smtp->execute());
 		$result = $stmt->get_result();
@@ -90,23 +90,9 @@ class DB
 			)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
 		);
+		assert($smtp != false);
 
 		// TODO: Error Handling.
-
-		foreach ($drinks as $drink) {
-			assert($drink instanceof Drink);
-			assert(is_int($drink->import_batch));
-			assert(is_int($drink->number));
-			assert(is_string($drink->name));
-			assert(is_string($drink->manufacturer));
-			assert(is_int($drink->size_in_milliliters));
-			assert(is_string($drink->type));
-			assert(is_int($drink->price));
-			assert(is_int($drink->price_per_liter));
-			assert(is_string($drink->origin));
-			assert($drink->vintage instanceof DateTime);
-			assert(is_int($drink->promille));
-			assert(is_int($drink->kcal_per_hundred_ml));
 
 			assert($smtp->bind_param(
 				"iissisiisiii",
@@ -123,14 +109,31 @@ class DB
 				$drink->propmille,
 				$drink->kcal_per_hundred_ml,
 			));
+
+		foreach ($drinks as $drink) {
+			assert($drink instanceof Drink);
+			assert(is_int($drink->import_batch));
+			assert(is_int($drink->number));
+			assert(is_string($drink->name));
+			assert(is_string($drink->manufacturer));
+			assert(is_int($drink->size_in_milliliters));
+			assert(is_string($drink->type));
+			assert(is_int($drink->price));
+			assert(is_int($drink->price_per_liter));
+			assert(is_string($drink->origin));
+			assert($drink->vintage instanceof DateTime);
+			assert(is_int($drink->promille));
+			assert(is_int($drink->kcal_per_hundred_ml));
+
 			assert($smtp->execute());
 		}
 	}
 
-	function create_import_batch($date): int
+	function create_import_batch(DateTime $date): int
 	{
 		$smtp = $this->mysqli->prepare("INSERT INTO import_batch (date) VALUES (?);");
-		$smtp->bind_param("s", $date);
+		assert($smtp != false);
+		assert($smtp->bind_param("s", $date));
 
 		assert($smtp->execute() != false);
 		$id = $this->mysqli->insert_id;
