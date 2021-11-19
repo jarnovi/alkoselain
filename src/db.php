@@ -53,11 +53,15 @@ class DB
 
 	public function get_latest_import_batch(): ?ImportBatch
 	{
-		$result = $this->mysqli->query("SELECT * FROM import_batch ORDER BY id DESC LIMIT 1");
+		$result = $this->mysqli->query("SELECT id, date FROM import_batch ORDER BY id DESC LIMIT 1");
 		assert($result != false);
-		$result = $result->fetch_object("ImportBatch");
-		assert($result != false);
-		return $result;
+		$result = $result->fetch_assoc();
+		assert($result !== false);
+		if ($result === null) return null;
+		$import_batch = new ImportBatch();
+		$import_batch->id = $result["id"];
+		$import_batch->date = new DateTime($result["date"]);
+		return $import_batch;
 	}
 
 	function fetch_drinks(int $import_batch, string $sort_by, string $direction, int $amount, int $start): array
@@ -94,6 +98,7 @@ class DB
 
 		// TODO: Error Handling.
 
+		foreach ($drinks as $drink) {
 			assert($smtp->bind_param(
 				"iissisiisiii",
 				$drink->import_batch,
@@ -109,8 +114,6 @@ class DB
 				$drink->propmille,
 				$drink->kcal_per_hundred_ml,
 			));
-
-		foreach ($drinks as $drink) {
 			assert($drink instanceof Drink);
 			assert(is_int($drink->import_batch));
 			assert(is_int($drink->number));
@@ -133,7 +136,8 @@ class DB
 	{
 		$smtp = $this->mysqli->prepare("INSERT INTO import_batch (date) VALUES (?);");
 		assert($smtp != false);
-		assert($smtp->bind_param("s", $date));
+		$date_str = $date->format("Y-m-d H:i:s");
+		assert($smtp->bind_param("s", $date_str));
 
 		assert($smtp->execute() != false);
 		$id = $this->mysqli->insert_id;
