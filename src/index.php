@@ -46,7 +46,7 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
 			if ($latest_import_batch) {
 				echo "<!--" . $latest_import_batch->id . "-->";
 				echo "<p>Päivitetty viimeksi: <time datetime='" 
-					. $latest_import_batch->date->format("Y-m-d") . "/>"
+					. $latest_import_batch->date->format("Y-m-d") . "'>"
 					. $latest_import_batch->date->format("d.m.Y") . "</time></p>";
 			}  else {
 				echo "<p>Varoitus! Tietoja ei löytynyt.</p>";
