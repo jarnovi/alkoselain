@@ -52,6 +52,13 @@
     }
   }
 
+  // Saves all available types into an array ->
+  // We could also do this through iteration, but I think that using SQL commands is faster, or ajax call to only get them when user wants them
+/*
+function findTypes($typeWanted){
+      mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_STRICT)
+  }
+*/
 
   function SQLtop20($sort,$dir,$maara,$alku){
     if ($dir != "DESC") $dir = "ASC";

@@ -12,7 +12,7 @@ function excel2db($file){
   } else {
     echo SimpleXLSX::parseError();
   }
-  $tuottemaara = sizeof($tuotelista)-4;
+  $tuottemaara = count($tuotelista)-4;
   
   for ($i=4;$i<$tuottemaara+4;$i++){
       //echo $tuotelista[$i][10]."<br>" ;
