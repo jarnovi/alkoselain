@@ -26,7 +26,7 @@ class TableCreator {
 		if (count($columns_to_display) <= 0)
 		throw new Exception("Error in configured columns to display: Need at least 1 column");
 		foreach ($columns_to_display as $column_to_display) {
-			assert($column_to_display instanceof string);
+			assert(is_string($column_to_display));
 			if (!array_key_exists($column_to_display, TableCreator::COLUMN_NAMES))
 			throw new Exception("Error in configured columns to display: Unknown column");
 		}
