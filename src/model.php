@@ -6,7 +6,7 @@ class ImportBatch {
 	/** DB primary key */
 	public int $id;
 	/** An unix timestamp */
-	public int $date;
+	public DateTime $date;
 }
 
 /** The main drink class. */
