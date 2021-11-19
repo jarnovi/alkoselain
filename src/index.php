@@ -23,7 +23,7 @@ $latest_import_batch = $db->get_latest_import_batch();
 $drinks = [];
 
 if ($latest_import_batch) {
-	$db->fetch_drinks($latest_import_batch->id, $sort, $direction, $amount, $offset);
+	$drinks = $db->fetch_drinks($latest_import_batch->id, $sort, $direction, $amount, $offset);
 }
 $table_html = $table_creator->create($COLUMNS, $drinks);
 
