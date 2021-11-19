@@ -56,7 +56,9 @@ class DB
 	{
 		$result = $this->mysqli->query("SELECT * FROM import_batch ORDER BY id DESC LIMIT 1");
 		assert($result != false);
-		return $result->fetch_object("ImportBatch");
+		$result = $result->fetch_object("ImportBatch");
+		assert($result != false);
+		return result;
 	}
 
 	function fetch_drinks($import_batch, $sort_by, $direction, $amount, $start)
@@ -81,13 +83,6 @@ class DB
 
 	function add_drinks(array $drinks)
 	{
-		foreach ($drinks as $drink) {
-			assert($drink instanceof Drink);
-			// At least do sanity checks for PKs
-			assert(is_int($drink->import_batch));
-			assert(is_int($drink->number));
-		}
-
 		$smtp = $this->mysqli->prepare(
 			"INSERT INTO drink (
 				import_batch, number, name, manufacturer, size_in_milliliters, type, price_in_cents,
@@ -99,7 +94,21 @@ class DB
 		// TODO: Error Handling.
 
 		foreach ($drinks as $drink) {
-			$smtp->bind_param(
+			assert($drink instanceof Drink);
+			assert(is_int($drink->import_batch));
+			assert(is_int($drink->number));
+			assert(is_string($drink->name));
+			assert(is_string($drink->manufacturer));
+			assert(is_int($drink->size_in_milliliters));
+			assert(is_string($drink->type));
+			assert(is_int($drink->price));
+			assert(is_int($drink->price_per_liter));
+			assert(is_string($drink->origin));
+			assert($drink->vintage instanceof DateTime);
+			assert(is_int($drink->promille));
+			assert(is_int($drink->kcal_per_hundred_ml));
+
+			assert($smtp->bind_param(
 				"iissisiisiii",
 				$drink->import_batch,
 				$drink->number,
@@ -111,10 +120,10 @@ class DB
 				$drink->price_per_liter,
 				$drink->origin,
 				$drink->vintage,
-				$drink->promille,
+				$drink->propmille,
 				$drink->kcal_per_hundred_ml,
-			);
-			$smtp->execute();
+			));
+			assert($smtp->execute());
 		}
 	}
 

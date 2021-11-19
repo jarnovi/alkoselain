@@ -13,7 +13,9 @@ $importer = new Importer($file);
 //var_dump($importer);
 
 $import_batch_id = $db->create_import_batch($importer->date);
+assert($import_batch_id  != null);
 $importer->set_import_batch_id($import_batch_id);
+assert(sizeof($importer->drinks) > 0);
 $db->add_drinks($importer->drinks);
 ?>
 
