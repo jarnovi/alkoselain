@@ -19,7 +19,8 @@ class DB
 			$result = $this->mysqli->query(
 				"CREATE TABLE IF NOT EXISTS import_batch (
 					id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-					date DATETIME NOT NULL
+					date DATETIME NOT NULL,
+					completed BOOLEAN NOT NULL DEFAULT FALSE
 				);"
 			);
 			assert($result != false);
@@ -32,12 +33,12 @@ class DB
 					manufacturer TEXT NOT NULL,
 					size_in_milliliters INT,
 					type TEXT NOT NULL,
-          price_in_cents INT NOT NULL,
-          price_in_cents_per_liter INT NOT NULL,
-					origin TEXT,
+          price INT NOT NULL,
+          price_per_liter INT NOT NULL,
+					origin TEXT NOT NULL,
 					vintage YEAR(4),
-					promille INT,
-					kcal_per_hundred_ml INT,
+					promille INT NOT NULL,
+					kcal_per_hundred_ml INT NOT NULL,
 					PRIMARY KEY(number, import_batch),
 					FOREIGN KEY(import_batch) REFERENCES import_batch(id)
 				);"
@@ -53,7 +54,9 @@ class DB
 
 	public function get_latest_import_batch(): ?ImportBatch
 	{
-		$result = $this->mysqli->query("SELECT id, date FROM import_batch ORDER BY id DESC LIMIT 1");
+		$result = $this->mysqli->query(
+			"SELECT id, date FROM import_batch WHERE completed = true ORDER BY id DESC LIMIT 1"
+		);
 		assert($result != false);
 		$result = $result->fetch_assoc();
 		assert($result !== false);
@@ -86,6 +89,7 @@ class DB
 		$drinks = [];
 
 		while ($drink = $result->fetch_object("Drink")) {
+				$drink->validate();
         array_push($drinks, $drink);
     }
 
@@ -96,8 +100,8 @@ class DB
 	{
 		$smtp = $this->mysqli->prepare(
 			"INSERT INTO drink (
-				import_batch, number, name, manufacturer, size_in_milliliters, type, price_in_cents,
-				price_in_cents_per_liter, origin, vintage, promille, kcal_per_hundred_ml
+				import_batch, number, name, manufacturer, size_in_milliliters, type, price,
+				price_per_liter, origin, vintage, promille, kcal_per_hundred_ml
 			)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
 		);
@@ -118,23 +122,10 @@ class DB
 				$drink->price_per_liter,
 				$drink->origin,
 				$drink->vintage,
-				$drink->propmille,
+				$drink->promille,
 				$drink->kcal_per_hundred_ml,
 			));
 			assert($drink instanceof Drink);
-			assert(is_int($drink->import_batch));
-			assert(is_int($drink->number));
-			assert(is_string($drink->name));
-			assert(is_string($drink->manufacturer));
-			assert(is_int($drink->size_in_milliliters));
-			assert(is_string($drink->type));
-			assert(is_int($drink->price));
-			assert(is_int($drink->price_per_liter));
-			assert(is_string($drink->origin));
-			assert($drink->vintage instanceof DateTime);
-			assert(is_int($drink->promille));
-			assert(is_int($drink->kcal_per_hundred_ml));
-
 			assert($smtp->execute());
 		}
 	}
@@ -150,6 +141,12 @@ class DB
 		$id = $this->mysqli->insert_id;
 
 		return $id;
+	}
+
+	function set_import_batch_as_completed(int $id, bool $completed = true)
+	{
+		$result = $this->mysqli->query("UPDATE import_batch SET completed = $completed WHERE id = $id;");
+		assert($result !== false);
 	}
 }
 
