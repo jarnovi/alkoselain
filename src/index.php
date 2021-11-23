@@ -7,10 +7,10 @@ $COLUMNS=["number","name","manufacturer","size","price","price_per_liter","type"
 
 
 
-$sort = isset($_GET['jarjesta']) ? intval($_GET['jarjesta'])>0? intval($_GET['jarjesta']) : 2: 2 ;  
+$sort = isset($_GET['jarjesta']) ? (int)$_GET['jarjesta'] >0? (int)$_GET['jarjesta'] : 2: 2 ;
 $direction = isset($_GET['suunta']) ? $_GET['suunta']=='laskeva' ? 'DESC' : 'ASC':'ASC' ;
-$offset = isset($_GET['alku']) ? intval($_GET['alku'])>0 ? intval($_GET['alku']) : 0:0 ;
-$amount = isset($_GET['maara']) ? intval($_GET['maara'])>0 ? intval($_GET['maara']) : 25:25 ;
+$offset = isset($_GET['alku']) ? (int)$_GET['alku'] >0 ? (int)$_GET['alku'] : 0:0 ;
+$amount = isset($_GET['maara']) ? (int)$_GET['maara'] >0 ? (int)$_GET['maara'] : 25:25 ;
 
 
 //  lasketaan nappien muutokset     
@@ -50,7 +50,7 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
 					. $latest_import_batch->date->format("d.m.Y") . "</time></p>";
 			}  else {
 				echo "<p>Varoitus! Tietoja ei löytynyt.</p>";
-				echo "<p>Jos olet admini, hae <a href='/refresh.php'>uudet tiedot</a></p>";
+				echo "<p>Jos olet admini, hae <a href='./refresh.php'>uudet tiedot</a></p>";
 			}
 		?>
 	</header>
