@@ -3,6 +3,8 @@ version: "3"
 services:
   db:
     image: mariadb:10
+    ports:
+      - "6603:3306"
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
       MYSQL_USER: "$MYSQL_USER"
@@ -11,7 +13,7 @@ services:
     volumes:
       - "./db:/var/lib/mysql"
   nginx:
-    image: alkobrowser
+    image: alkoselain
     build: 
       context: .
       dockerfile: ./Dockerfile.nginx
@@ -19,11 +21,12 @@ services:
       - db
     ports:
       - "8080:8080"
-    read_only: true
     volumes:
       - "./src:/var/www/html"
-    tempfs:
-      - "/tmp:size=10M"
+      - "./config/nginx.conf:/etc/nginx/nginx.conf"
+      - "./config/fpm-pool.conf:/etc/php8/php-fpm.d/www.conf"
+      - "./config/php.ini:/etc/php8/conf.d/custom.ini"
+      - "./config/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf"
     environment:
       DB_HOST: "db"
       DB_USER: "$MYSQL_USER"
