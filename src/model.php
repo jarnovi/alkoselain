@@ -11,6 +11,14 @@ class ImportBatch {
 
 /** The main drink class. */
 class Drink {
+
+	/** @var int The constant for the conversion between euros and cents */
+	public int $centsCon = 100;
+	/** @var int The constant for the conversion between litres and milliliters */
+	public int $litreCon = 1000;
+	/** @var int The constant for the conversion between promille (float) and promille (int) */
+	public int $promilCon = 100;
+
 	/** The ID of the import batch, used as a part of the PK */
 	public int $import_batch;
 	/** The product number given to the drink by Alko */
@@ -55,9 +63,12 @@ class Drink {
 			throw new Exception("Drink price_per_liter is invalid");
 		if(!(is_string($this->origin) && strlen($this->origin) > 0))
 			throw new Exception("Drink origin is invalid");
-		if($this->vintage !== null && !(is_int($this->vintage) && $this->vintage > 0 && $this->vintage <= getdate()["year"]))
-			throw new Exception("Drink vintage is invalid");
-		if(!(is_int($this->promille) && $this->promille >= 0 && $this->promille <= 1000))
+		if($this->vintage !== null && !(is_int($this->vintage) && $this->vintage > 0 && $this->vintage <= getdate()["year"])){
+			// vintage value might not be given, if so set it to NULL
+			$this->vintage = null;
+		}
+		// 10000 / 100 = 100 | 100 = max theoretical promilles in a drink
+		if(!(is_int($this->promille) && $this->promille >= 0 && $this->promille <= 10000))
 			throw new Exception("Drink promille is invalid");
 		if(!(is_int($this->kcal_per_hundred_ml) && $this->kcal_per_hundred_ml >= 0  && is_finite($this->kcal_per_hundred_ml)))
 			throw new Exception("Drink kcal_per_hundred_ml is invalid");

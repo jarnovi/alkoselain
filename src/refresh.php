@@ -3,7 +3,7 @@
 
 require_once "fetcher.php";
 require_once "importer.php";
-$db =require_once "db.php";
+$db = require_once "db.php";
 
 $db->migrate_db();
 
