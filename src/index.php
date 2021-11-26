@@ -1,7 +1,7 @@
-<?php 
+<?php
 require_once "model.php";
-$db = require_once "db.php";
-$table_creator = require_once "table.php";
+$db = require "db.php";
+$table_creator = require "table.php";
 
 $COLUMNS=["number","name","manufacturer","size","price","price_per_liter","type","origin","vintage","percentage","energy"];
 
@@ -37,6 +37,7 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>AlkoSelain/</title>
+	<link href="./style.css" media="all" rel="stylesheet" type="text/css" />
 	<link href="./style.css" rel="stylesheet" />
 </head>
 <body>
