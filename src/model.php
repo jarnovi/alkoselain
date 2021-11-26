@@ -24,7 +24,7 @@ class Drink {
 	/** The name of the drink's manufacturer */
 	public string $manufacturer;
 	/** The size of the drink, in milliliters */
-	public int $bottle_size_ml;
+	public int $size_in_milliliters;
 	/** The category of the drink */
 	public string $type;
 	/** The country where the drink was produced */
@@ -45,7 +45,7 @@ class Drink {
 			throw new Exception("Drink name is invalid");
 		if(!(is_string($this->manufacturer) && strlen($this->manufacturer) > 0))
 			throw new Exception("Drink manufacturer is invalid");
-		if(!(is_int($this->bottle_size_ml) && $this->bottle_size_ml > 0 && is_finite($this->bottle_size_ml)))
+		if(!(is_int($this->size_in_milliliters) && $this->size_in_milliliters > 0 && is_finite($this->size_in_milliliters)))
 			throw new Exception("Drink size_in_milliliters is invalid");
 		if(!(is_string($this->type) && strlen($this->type) > 0))
 			throw new Exception("Drink type is invalid");

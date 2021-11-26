@@ -36,6 +36,7 @@ RUN apk --no-cache add \
 #  php8-session \
   php8-xml \
   php8-xmlreader \
+	php8-simplexml \
 #  php8-zlib \
   supervisor
 
@@ -44,8 +45,7 @@ RUN ln -s /usr/bin/php8 /usr/bin/php
 RUN mkdir -p /var/www/html
 
 #COPY --from=composer /app/vendor /var/www/html/vendor
-COPY static/ /var/www/html
-COPY src/ /var/www/html
+#COPY src/ /var/www/html
 
 # Configuration
 COPY config/nginx.conf /etc/nginx/nginx.conf

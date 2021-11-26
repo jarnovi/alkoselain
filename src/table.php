@@ -85,7 +85,7 @@ class TableCreator {
 						$val .= $drink->manufacturer;
 						break;
 					case "size":
-						$val .= $drink->bottle_size_ml;
+						$val .= $drink->size_in_milliliters;
 						break;
 					case "price":
 						$val .= $drink->price;
