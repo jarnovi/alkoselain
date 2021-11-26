@@ -37,8 +37,10 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>AlkoSelain/</title>
-	<link href="./style.css" rel="stylesheet" />
 </head>
+    <?php
+        echo "<style>" . file_get_contents("./style.css") . "</style>";
+    ?>
 <body>
 	<header>
 		<h1>Alkon tuotekatalogi</h1>
@@ -49,8 +51,10 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
 					. $latest_import_batch->date->format("Y-m-d") . "'>"
 					. $latest_import_batch->date->format("d.m.Y") . "</time></p>";
 			}  else {
-				echo "<p>Varoitus! Tietoja ei löytynyt.</p>";
-				echo "<p>Jos olet admini, hae <a href='./refresh.php'>uudet tiedot</a></p>";
+				echo " <div class='warning-container'>
+                       <p>Varoitus! Tietoja ei löytynyt.</p>
+                       <p>Hae <br> <a href='./refresh.php' style='color:red;'>uudet tiedot</a></p>
+                       </div>";
 			}
 		?>
 	</header>

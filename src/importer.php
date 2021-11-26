@@ -49,7 +49,7 @@ class Importer {
 
 		$size_matches = [];
 		if (preg_match("/([0-9]+(,[0-9]+)?) l/S", $row[3], $size_matches)) {
-			$drink->bottle_size_ml = intval(floatval($size_matches[0]) * 1000);
+			$drink->size_in_milliliters = intval(floatval($size_matches[0]) * 1000);
 		} else {
 			throw new Exception("Unknown drink amount format for drink $drink->number");
 		}

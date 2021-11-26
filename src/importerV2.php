@@ -63,7 +63,7 @@ class ImporterV2 {
 		$drink->name = $row[1];
 		$drink->manufacturer = $row[2];
 		// why not float? because it is bigger in size?
-		$drink->bottle_size_ml = (int)((float)preg_replace($this->patterns, $this->replacements, $row[3])*$this->litreCon);
+		$drink->size_in_milliliters = (int)((float)preg_replace($this->patterns, $this->replacements, $row[3])*$this->litreCon);
 
 		/*
 		$size_matches = [];
@@ -82,7 +82,7 @@ class ImporterV2 {
 		$drink->promille = (int)((float)$row[21] * $this->promilCon);
 		$drink->kcal_per_hundred_ml = (int)$row[27];
 
-		//$drink->validate(true);
+		$drink->validate(true);
 		return $drink;
 	}
 }
