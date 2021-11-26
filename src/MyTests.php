@@ -6,11 +6,10 @@ $db = require "db.php";
 
 
 function test(){
-    // read data and save to file specified by $target
+    // read data and save to file specified by $target, so that we can store a copy of the original data on the server.
     $url = 'https://www.alko.fi/INTERSHOP/static/WFS/Alko-OnlineShop-Site/-/Alko-OnlineShop/fi_FI/Alkon%20Hinnasto%20Tekstitiedostona/alkon-hinnasto-tekstitiedostona.xlsx';
     $target= '../test/testhii.xlsx';
     file_put_contents($target, fopen($url, 'r'));
-
 
 }
 
