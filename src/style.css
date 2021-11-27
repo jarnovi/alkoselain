@@ -1,4 +1,6 @@
- *, *:before, *:after {
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+*, *:before, *:after {
     box-sizing: border-box;
     font-size: 1em;
     margin: 0;
@@ -27,16 +29,43 @@ body {
 }
 
 h1{
-    color: #3d3d3d;
-    text-shadow: 0px 0px 15px #519bbb, 0 0 4px white;
+    font-family: 'Bebas Neue', cursive;
+    color: #de1b1b;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+    font-size: 66px;
+    text-align: center;
+}
+
+.warning-container {
+    text-align: center;
+}
+
+.info-container {
+    text-align: center;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.filters-container {
+    height: 7%;
+    background-color: #979797;
 }
 
 table { 
     table-layout: fixed;
     width: 100%;
+    border-style: solid;
     border-radius: 7px;
     border-spacing: 0px;
     border-collapse: separate;
+}
+
+.main-container{
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 2rem;
 }
 
 th{
@@ -77,19 +106,23 @@ tr{
     background-color: #1f1f1f;
     color: #a1aaaa;
 }
-button{
+.button{
     color:#d6e5f2;
     background-color: #1f1f1f;
     border-radius: 4px;
     border-style: none;
     height:30px;
-    margin:2px;
+    margin-left: 5px;
+    margin-right: 5px;
     width:90px;
+    padding:5px;
 }
-button:hover{
+.button:hover{
     background-color: #0f4167;
     cursor:pointer;
-
+}
+.buttons-container{
+    margin-top:1rem;
 }
 thead {
     background-color: #3d3d3d;

@@ -9,6 +9,7 @@ class DB
 	{
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 		$this->mysqli = new mysqli(getenv("DB_HOST"), getenv("DB_USER"), getenv("DB_PASSWORD"), getenv("DB_DATABASE"));
+
 	}
 
 	public function migrate_db()
@@ -33,8 +34,8 @@ class DB
 					manufacturer TEXT NOT NULL,
 					size_in_milliliters INT,
 					type TEXT NOT NULL,
-          price INT NOT NULL,
-          price_per_liter INT NOT NULL,
+                    price INT NOT NULL,
+                    price_per_liter INT NOT NULL,
 					origin TEXT NOT NULL,
 					vintage YEAR(4),
 					promille INT NOT NULL,
@@ -96,20 +97,34 @@ class DB
 		return $drinks;
 	}
 
+    // maybe ON DUPLICATE KEY UPDATE ?=VALUES(?) , or VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) works ?
+    //                                , int $batchSize
 	function add_drinks(array $drinks)
 	{
+
 		$smtp = $this->mysqli->prepare(
 			"INSERT INTO drink (
 				import_batch, number, name, manufacturer, size_in_milliliters, type, price,
 				price_per_liter, origin, vintage, promille, kcal_per_hundred_ml
 			)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE import_batch=VALUES(import_batch), number=VALUES(number),name=VALUES(name), 
+                                    manufacturer=VALUES(manufacturer), size_in_milliliters=VALUES(size_in_milliliters), 
+                                    type=VALUES(type), price=VALUES(price), price_per_liter=VALUES(price_per_liter),
+                                    origin=VALUES(origin), vintage=VALUES(vintage), promille=VALUES(promille), 
+                                    kcal_per_hundred_ml=VALUES(kcal_per_hundred_ml);"
 		);
+
 		assert($smtp != false);
 
 		// TODO: Error Handling.
 
+        //$sqlBatch = array();
+        //$batchSize
+        assert($this->mysqli->begin_transaction());
 		foreach ($drinks as $drink) {
+            //$sqlBatch[] = '("'.($drink->import_batch).'", '.$drink->
+
 			assert($smtp->bind_param(
 				"iissisiisiii",
 				$drink->import_batch,
@@ -128,6 +143,7 @@ class DB
 			assert($drink instanceof Drink);
 			assert($smtp->execute());
 		}
+        $this->mysqli->commit();
 	}
 
 	function create_import_batch(DateTime $date): int
