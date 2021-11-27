@@ -5,13 +5,10 @@ $table_creator = require "table.php";
 
 $COLUMNS=["number","name","manufacturer","size","price","price_per_liter","type","origin","vintage","percentage","energy"];
 
-
-
 $sort = isset($_GET['jarjesta']) ? (int)$_GET['jarjesta'] >0? (int)$_GET['jarjesta'] : 2: 2 ;
 $direction = isset($_GET['suunta']) ? $_GET['suunta']=='laskeva' ? 'DESC' : 'ASC':'ASC' ;
 $offset = isset($_GET['alku']) ? (int)$_GET['alku'] >0 ? (int)$_GET['alku'] : 0:0 ;
 $amount = isset($_GET['maara']) ? (int)$_GET['maara'] >0 ? (int)$_GET['maara'] : 25:25 ;
-
 
 //  lasketaan nappien muutokset     
 $previous_offset=$offset-$amount;
@@ -59,6 +56,7 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
                 echo " <div class='warning-container'>
                        <p>Varoitus! Tietoja ei löytynyt.</p>
                        <p>Hae <br> <a href='./refresh.php' style='color:red;'>uudet tiedot</a></p>
+                       <p> Saattaa ladata hetken, ole hyvä ja odota rauhassa :)</p>
                        </div>";
             }
             ?>

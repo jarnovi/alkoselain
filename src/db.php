@@ -8,8 +8,8 @@ class DB
 	function __construct()
 	{
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-		//$this->mysqli = new mysqli(getenv("DB_HOST"), getenv("DB_USER"), getenv("DB_PASSWORD"), getenv("DB_DATABASE"));
-		$this->mysqli = new mysqli("127.0.0.1", "root", "", "alkotauluMaster");
+		$this->mysqli = new mysqli(getenv("DB_HOST"), getenv("DB_USER"), getenv("DB_PASSWORD"), getenv("DB_DATABASE"));
+
 	}
 
 	public function migrate_db()
