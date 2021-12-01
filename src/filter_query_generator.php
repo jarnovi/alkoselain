@@ -7,7 +7,7 @@ class FilterQueryGenerator
     private string $bind_param_types = '';
     private Array $bind_param_values = [];
     public string $direction = "ASC";
-    public ?string $sort_by;
+    public ?string $order_by = null;
     public int $amount = 25;
     public int $start = 0;
 
