@@ -13,11 +13,11 @@ class ImportBatch {
 class Drink {
 
 	/** @var int The constant for the conversion between euros and cents */
-	public int $centsCon = 100;
+	const CENTS_IN_EURO = 100;
 	/** @var int The constant for the conversion between litres and milliliters */
-	public int $litreCon = 1000;
+	const MILILITERS_IN_LITER = 1000;
 	/** @var int The constant for the conversion between promille (float) and promille (int) */
-	public int $promilCon = 100;
+	const PROMILLE_IN_PERCENT = 100;
 
 	/** The ID of the import batch, used as a part of the PK */
 	public int $import_batch;
