@@ -2,6 +2,7 @@
 require_once "model.php";
 $db = require "db.php";
 $table_creator = require "table.php";
+require_once "filter_query_generator.php";
 
 $COLUMNS=["number","name","manufacturer","size","price","price_per_liter","type","origin","vintage","percentage","energy"];
 
@@ -17,10 +18,12 @@ $next_offser=$offset+$amount;
 $db->migrate_db();
 $latest_import_batch = $db->get_latest_import_batch();
 
+$filter_query_generator = new FilterQueryGenerator($latest_import_batch->id);
+
 $drinks = [];
 
 if ($latest_import_batch) {
-	$drinks = $db->fetch_drinks($latest_import_batch->id, $sort, $direction, $amount, $offset);
+	$drinks = $db->fetch_drinks($filter_query_generator);
 }
 $table_html = $table_creator->create($COLUMNS, $drinks);
 
