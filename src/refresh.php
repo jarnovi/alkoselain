@@ -36,17 +36,8 @@ if($importer) {
     $importer->set_import_batch_id($import_batch_id);
     assert(count($importer->drinks) > 0);
 
-    // maybe we could do the database imports in another thread
-    // but if the school's server only has 1 core then it is not possible
-    // dividing the drinks into chucks and uploading them into sql database
-    $drink_chunks = array_chunk($importer->drinks, 1024, true);
-    $loopsMax = count($drink_chunks);
-    for($i = 0; $i < $loopsMax; $i++){
-        //$db->add_drinks($drink_chunks[$i], count($drink_chunks[$i]));
-        $db->add_drinks($drink_chunks[$i]);
-        //print_r("Chunk " . $i+1 . " out of " . $loopsMax . " added to DB \n");
-    }
 
+    $db->add_drinks($importer->drinks);
     $db->set_import_batch_as_completed($import_batch_id);
 }
 //var_dump($importer);
