@@ -2,31 +2,15 @@
 
 class Filters
 {
-
-    // TODO maybe get these elsewhere?
-    // just 4 testing
-    private string $servername = "localhost";
-    private string $username = "root";
-    private string $password = "";
-
     private $filter = '';
-    private $mysqli;
-    private $getters = [
-        'types' => 'getTypes',
-        'madeIn' => 'getMadeIn',
-        'bottleSize' => 'getBottleSize',
-        'priceBetween' => 'getPriceBetween',
-        'EnergyBetween' => 'getEnergyBetween',
-        // TODO add more ?
-    ];
 
-    private function getTypes(string $type = ""){
+    public function get_types(string $type = ""){
 
     }
 
     //SELECT distinct valmistusmaa from tuotteet
     // if argument is empty func returns all countries in the list
-    private function getMadeIn(string $country = ""){
+    public function get_made_in(string $country = ""){
         // if not given get all countries
         if($country == ""){
             /*
@@ -64,15 +48,15 @@ class Filters
     }
 
     // int?
-    private function getBottleSize(int $bottleSize){
+    public function get_bottle_size(int $bottleSize){
 
     }
 
-    private function getPriceBetween(Array $priceBetween){
+    public function get_price_between(int $min_price, int $max_price){
 
     }
 
-    private function getEnergyBetween(Array $energyBetween){
+    public function get_energy_between(int $min_energy, int $max_energy){
 
     }
 
@@ -80,24 +64,7 @@ class Filters
     //SELECT distinct tyyppi from tuotteet
     // Might not need the string filter argument... not sure yet
     public function __construct(string $filter = "") {
-        $this->filter = $filter;
-        mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_STRICT);
-
-        // TODO maybe something wiser
-        $this->mysqli = new mysqli("localhost", "root", "", "alkotaulu" );
     }
-
-    public function __call($method, $args) {
-        if(!in_array($method, array_keys($this->getters))) {
-            throw new BadMethodCallException();
-        }
-        echo $this->getters[$method];
-        //array_unshift($args, $this->filter);
-        //echo call_user_func_array([$this, $this->getters[$method]], $args);
-        return call_user_func_array([$this, $this->getters[$method]], $args);
-
-    }
-
 }
 
 $filter = new Filters();
