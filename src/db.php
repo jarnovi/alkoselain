@@ -3,6 +3,7 @@ require_once "model.php";
 
 class DB
 {
+	/** The only connection that shall be used in this project. */
 	private mysqli $mysqli;
 
 	function __construct()
@@ -68,20 +69,28 @@ class DB
 		return $import_batch;
 	}
 
-	function fetch_drinks(int $import_batch, string $sort_by, string $direction, int $amount, int $start): array
+	function fetch_drinks(FilterQueryGenerator $query): array
 	{
-		if ($direction != "DESC") $direction = "ASC";
+		$sql = "SELECT * FROM drink WHERE ";
+		$sql .= $query->get_where_clause_contents();
+		
+		$order_by = $query->order_by;
+		if ($order_by != null) {
+			$direction = $query->direction;
+			if ($direction != "DESC") $direction = "ASC";
+			$sql .= " ORDER BY " . $order_by . " " . $direction;
+		}
 
-		if (!is_int($import_batch) || !is_int($amount) || !is_int($start) || $amount > 100)
-			die("SQL safety validation failed.");
+		$sql .= " LIMIT " . $query->start . ", " . $query->amount . ";";
 
-		$smtp = $this->mysqli->prepare("SELECT * FROM drink
-			WHERE import_batch = '$import_batch'
-			ORDER BY ? $direction
-			LIMIT ?, ?;"
-		);
+		$smtp = $this->mysqli->prepare($sql);
 		assert($smtp != false);
-		assert($smtp->bind_param("sii", $sort_by, $start, $amount));
+
+		$param_types = $query->get_bind_param_types();
+		$param_values = $query->get_bind_param_values();
+		if ($param_types != null && $param_values != null) {
+			assert($smtp->bind_param($param_types, ...$param_values));
+		}
 
 		assert($smtp->execute());
 		$result = $smtp->get_result();
@@ -97,8 +106,7 @@ class DB
 		return $drinks;
 	}
 
-    // maybe ON DUPLICATE KEY UPDATE ?=VALUES(?) , or VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) works ?
-    //                                , int $batchSize
+	/** Adds drinks to the database. */
 	function add_drinks(array $drinks)
 	{
 

@@ -6,18 +6,26 @@ class FilterQueryGenerator
     private string $filter = '';
     private string $bind_param_types = '';
     private Array $bind_param_values = [];
+    public string $direction = "ASC";
+    public ?string $sort_by;
+    public int $amount = 25;
+    public int $start = 0;
 
     private function add_to_filter_str(string $filter_str) {
         if (strlen($this->filter) != 0) $this->filter .= " AND ";
         $this->filter .= $filter_str;
     }
 
-    public function get_db_query_data(): Array {
-        return [
-            "filter" => $this->filter,
-            "param_types" => $this->bind_param_types,
-            "param_values" => $this->bind_param_values
-        ];
+    public function get_where_clause_contents(): string {
+        return $this->filter;
+    }
+
+    public function get_bind_param_types(): string {
+        return $this->bind_param_types;
+    }
+
+    public function get_bind_param_values(): Array {
+        return $this->bind_param_values;
     }
 
     public function filter_by_type(string $type){
@@ -72,5 +80,11 @@ class FilterQueryGenerator
         $this->add_to_filter_str("kcal_per_hundred_ml <= ?");
         $this->bind_param_types .= "i";
         array_push($this->bind_param_values, $max_energy);
+    }
+    
+    public function __construct(int $import_batch) {
+        $this->add_to_filter_str("import_batch = ?");
+        $this->bind_param_types .= "i";
+        array_push($this->bind_param_values, $import_batch);
     }
 }
