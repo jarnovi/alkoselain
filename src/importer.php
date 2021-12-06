@@ -56,13 +56,13 @@ class Importer {
 		$drink->number = (int)$row[0];
 		$drink->name = $row[1];
 		$drink->manufacturer = $row[2];
-		$drink->size_in_milliliters = (int)((float)preg_replace($this->patterns, $this->replacements, $row[3]) * $drink->litreCon);
-		$drink->price = (int)((float)$row[4] * $drink->centsCon);
-		$drink->price_per_liter = (int)((float)$row[5] * $drink->centsCon);
+		$drink->size_in_milliliters = (int)((float)preg_replace($this->patterns, $this->replacements, $row[3]) * 1000);
+		$drink->price = (int)((float)$row[4] * 100);
+		$drink->price_per_liter = (int)((float)$row[5] * 100);
 		$drink->type = $row[8];
 		$drink->origin = $row[12];
 		$drink->vintage = (int)$row[14];
-		$drink->promille = (int)((float)$row[21] * $drink->promilCon);
+		$drink->promille = (int)((float)$row[21] * 10);
 		$drink->kcal_per_hundred_ml = (int)$row[27];
 
 		$drink->validate(true);
