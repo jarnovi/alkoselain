@@ -43,6 +43,7 @@ RUN apk --no-cache add \
 RUN ln -s /usr/bin/php8 /usr/bin/php
 
 RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/storage
 
 #COPY --from=composer /app/vendor /var/www/html/vendor
 #COPY src/ /var/www/html
