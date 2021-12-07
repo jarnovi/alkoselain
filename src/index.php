@@ -6,19 +6,23 @@ require_once "filter_query_generator.php";
 
 $COLUMNS=["number","name","manufacturer","size","price","price_per_liter","type","origin","vintage","percentage","energy"];
 
-$sort = isset($_GET['jarjesta']) ? (int)$_GET['jarjesta'] >0? (int)$_GET['jarjesta'] : 2: 2 ;
-$direction = isset($_GET['suunta']) ? $_GET['suunta']=='laskeva' ? 'DESC' : 'ASC':'ASC' ;
-$offset = isset($_GET['alku']) ? (int)$_GET['alku'] >0 ? (int)$_GET['alku'] : 0:0 ;
-$amount = isset($_GET['maara']) ? (int)$_GET['maara'] >0 ? (int)$_GET['maara'] : 25:25 ;
 
-//  lasketaan nappien muutokset
-$previous_offset=$offset-$amount;
-$next_offser=$offset+$amount;
+$page = max(0, (int)($_GET['sivu'] ?? 0));
+$amount = min(100, max(1, (int)($_GET['maara'] ?? 25)));
+
+$min_price = $_GET["min-hinta"];
+$max_price = $_GET["max-hinta"];
+$min_size = $_GET['min-koko'];
+$max_size = $_GET["max-koko"];
+$type = $_GET["tyyppi"];
+$origin = $_GET["maa"];
 
 $db->migrate_db();
 $latest_import_batch = $db->get_latest_import_batch();
 
 $filter_query_generator = new FilterQueryGenerator($latest_import_batch->id);
+$filter_query_generator->amount = $amount;
+$filter_query_generator->start = $page*$amount;
 
 $drinks = [];
 
@@ -26,9 +30,6 @@ if ($latest_import_batch) {
 	$drinks = $db->fetch_drinks($filter_query_generator);
 }
 $table_html = $table_creator->create($COLUMNS, $drinks);
-
-$next_page_query="jarjesta=$sort&suunta=$direction&alku=$next_offser&maara=$amount";
-$prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$amount";
 ?>
 <!DOCTYPE html>
 <html lang="fi">
@@ -67,15 +68,16 @@ $prev_page_query="jarjesta=$sort&suunta=$direction&alku=$previous_offset&maara=$
 	</header>
 
 	<main>
-        <div class='main-container'>
+        <form class='main-container' method="GET">
             <div class='table-container'>
                 <?php echo $table_html; ?>
             </div>
             <div class='buttons-container'>
-                <a class="button" href="?<?= $prev_page_query ?>">aikaisempi</a>
-                <a class="button" href="?<?= $next_page_query ?>">seuraava</a>
+                <input type="hidden" name="maara" value="25">
+                <button type="submit" name="sivu" value="<?= max(0, $page -1) ?>">Edellinen sivu</button>
+                <button type="submit" name="sivu" value="<?= $page +1 ?>">Seuraava sivu</button>
             </div>
-        </div>
+        </form>
 	</main>
 </body>
 </html>

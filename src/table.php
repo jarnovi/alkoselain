@@ -57,9 +57,31 @@ class TableCreator {
 	private function create_filter_row(array $columns_to_display): string {
 		$val = "<tr>";
 		
-		foreach ($columns_to_display as $column_to_display) {
-			$val .= "<th><input name='" . TableCreator::COLUMN_NAMES[$column_to_display] . "' placeholder='" . TableCreator::COLUMN_NAMES[$column_to_display] . "' type='text'/></th>";
-		}
+			foreach ($columns_to_display as $column) {
+				$val .= "<th>";
+				switch ($column) {
+					case "size":
+						$val .= "<input name='min-koko' type='number' min='0' step='0.1' placeholder='0.5L' />";
+						$val .= "<input name='max-koko' type='number' min='0' step='0.1' placeholder='0.8L' />";
+						break;
+					case "price":
+						$val .= "<input name='min-hinta' type='number' min='0' step='0.01' placeholder='0.00€' />";
+						$val .= "<input name='max-hinta' type='number' min='0' step='0.01' placeholder='20.00€' />";
+						break;
+					case "type":
+						$val .= "<input name='tyyppi' type='text' placeholder='Oluet' />";
+						break;
+					case "origin":
+						$val .= "<input name='maa' type='text' placeholder='Suomi' />";
+						break;
+					case "energy":
+						$val .= "<input name='min-energia' type='number' min='0' step='1' placeholder='0' />";
+						$val .= "<input name='max-energia' type='number' min='0' step='1' placeholder='100' />";
+						break;
+				}
+				
+				$val .= "</th>";
+			}
 		
 		return $val ."</tr>";
 	}
@@ -72,7 +94,6 @@ class TableCreator {
 			$val .= "<tr>";
 			
 			foreach ($columns_to_display as $column) {
-				// TODO: create value-> string mappings for each possible value.
 				$val .= "<th>";
 				switch ($column) {
 					case "number":
@@ -85,13 +106,13 @@ class TableCreator {
 						$val .= $drink->manufacturer;
 						break;
 					case "size":
-						$val .= $drink->size_in_milliliters;
+						$val .= $drink->size_in_milliliters / 1000 . "L";
 						break;
 					case "price":
-						$val .= $drink->price;
+						$val .= $drink->price / 100 . "€";
 						break;
 					case "price_per_liter":
-						$val .= $drink->price_per_liter;
+						$val .= $drink->price_per_liter / 100 . "€";
 						break;
 					case "type":
 						$val .= $drink->type;
