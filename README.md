@@ -4,36 +4,36 @@ A simple site to browse Alko's listings, created for a school project.
 
 ![Logo](./static/logo.svg)
 
-The project hopefully fulfills all the listed requirements (OUTDATED):
+The project hopefully fulfills all the listed requirements:
 
-- [ ] Browsing the catalog in a paginated table, with 25 rows per page
-- [ ] Displays at least the drink's:
-  - [ ] Product number
-  - [ ] Name
-  - [ ] Manufacturer
-  - [ ] Bottle size
-  - [ ] Price
-  - [ ] Price per liter
-  - [ ] Type
-  - [ ] Manufacturing country
-  - [ ] Vintage
-  - [ ] Alcohol percentage
-  - [ ] Energy in kcal per 100ml
-- [ ] Storing the data in a database
-- [ ] Implementing filters that can be used alone or combined for at least:
-  - [ ] Type
-  - [ ] Manufacturing country
-  - [ ] Bottle size
-  - [ ] Price (range)
-  - [ ] Energy amount (range)
-- [ ] The data can be refreshed directly from alko's excel file url
+- [x] Browsing the catalog in a paginated table, with 25 rows per page
+- [x] Displays at least the drink's:
+  - [x] Product number
+  - [x] Name
+  - [x] Manufacturer
+  - [x] Bottle size
+  - [x] Price
+  - [x] Price per liter
+  - [x] Type
+  - [x] Manufacturing country
+  - [x] Vintage
+  - [x] Alcohol percentage
+  - [x] Energy in kcal per 100ml
+- [x] Storing the data in a database
+- [x] Implementing filters that can be used alone or combined for at least:
+  - [x] Type
+  - [x] Manufacturing country
+  - [x] Bottle size
+  - [x] Price (range)
+  - [x] Energy amount (range)
+- [x] The data can be refreshed directly from alko's excel file url
 - [x] Display a specific title which says from which time the data is from
-- [ ] Display filters below the table's title
-- [ ] Display the table's data below the filters
-- [ ] Variable configuration options for:
-  - [x] Database connection
-  - [ ] The displayed columns
-  - [ ] Rows per page
+- [x] Display filters below the table's title
+- [x] Display the table's data below the filters
+- [x] Variable configuration options for:
+  - [x] Database connection (environment)
+  - [x] The displayed columns (query parameter with limited possible values)
+  - [x] Rows per page (query parameter with limits)
 - [x] Divide the application into modules
 
 Uses [SimpleXLSX](https://github.com/shuchkin/simplexlsx) for importing the spreadsheet data from Alko.
