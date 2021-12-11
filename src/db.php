@@ -18,6 +18,10 @@ class DB
 		assert($this->mysqli->begin_transaction());
 
 		try {
+			$dbname = getenv("DB_DATABASE");
+			$result = $this->mysqli->query("CREATE DATABASE IF NOT EXISTS $dbname;");
+			assert($result != false);
+
 			$result = $this->mysqli->query(
 				"CREATE TABLE IF NOT EXISTS import_batch (
 					id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
