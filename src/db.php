@@ -1,4 +1,7 @@
 <?php
+
+/** This module is responsible for contacting the database. */
+
 require_once "model.php";
 
 class DB

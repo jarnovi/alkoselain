@@ -1,5 +1,6 @@
 <?php
-/** This file is used for generating the strings for SQL queries. */
+
+/** This module is used for generating the strings for SQL queries. */
 
 class FilterQueryGenerator
 {

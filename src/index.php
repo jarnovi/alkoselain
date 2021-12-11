@@ -1,4 +1,6 @@
 <?php
+
+/** The main page. */
 require_once "model.php";
 $db = require "db.php";
 $table_creator = require "table.php";

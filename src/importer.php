@@ -1,5 +1,6 @@
 <?php
-/** Importing functionality. That is, turning the fetched excel data into our format and storing it. */
+
+/** This module is responsible for the importing functionality. That is, parsing the fetched excel data. */
 
 require_once "model.php";
 require_once 'SimpleXLSX.php';

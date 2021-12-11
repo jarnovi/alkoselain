@@ -5,7 +5,7 @@
 class ImportBatch {
 	/** DB primary key */
 	public int $id;
-	/** An unix timestamp */
+	/** When the import batch was created (not the alko excel's date). */
 	public DateTime $date;
 }
 

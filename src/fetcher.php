@@ -1,5 +1,7 @@
 <?php
-/** Fetching the excel sheet from Alko. */
+
+/** This module is responsible from fetching the excel sheet from Alko. */
+
 function fetch_xlxs(string $url, string $target): bool {
     // read data and save to file specified by $target, so that we can store a copy of the original data on the server.
     //$url = 'https://www.alko.fi/INTERSHOP/static/WFS/Alko-OnlineShop-Site/-/Alko-OnlineShop/fi_FI/Alkon%20Hinnasto%20Tekstitiedostona/alkon-hinnasto-tekstitiedostona.xlsx';
