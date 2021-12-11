@@ -29,15 +29,15 @@ class FilterQueryGenerator
     }
 
     public function filter_by_type(string $type){
-        $this->add_to_filter_str("type = ?");
+        $this->add_to_filter_str("TRIM(type) LIKE TRIM(?)");
         $this->bind_param_types .= "s";
-        array_push($this->bind_param_values, $type);
+        array_push($this->bind_param_values, "%" . $type . "%");
     }
 
     public function filter_by_country(string $country){
-        $this->add_to_filter_str("country = ?");
+        $this->add_to_filter_str("TRIM(origin) LIKE TRIM(?)");
         $this->bind_param_types .= "s";
-        array_push($this->bind_param_values, $country);
+        array_push($this->bind_param_values, "%" . $country . "%");
     }
 
     /** Filters drinks to only sizes that are at least the given value in size. */
