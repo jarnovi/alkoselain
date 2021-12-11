@@ -4,7 +4,7 @@ $db = require "db.php";
 $table_creator = require "table.php";
 require_once "filter_query_generator.php";
 
-$COLUMNS = ["number", "name", "manufacturer", "size", "price", "price_per_liter", "type", "origin", "vintage", "percentage", "energy"];
+$COLUMNS = $_GET['sarakkeet'] ? explode(",", $_GET['sarakkeet']) : ["number", "name", "manufacturer", "size", "price", "price_per_liter", "type", "origin", "vintage", "percentage", "energy"];
 
 $table_creator = new TableCreator($COLUMNS);
 
