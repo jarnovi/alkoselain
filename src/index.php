@@ -6,7 +6,12 @@ require_once "filter_query_generator.php";
 
 $COLUMNS = $_GET['sarakkeet'] ? explode(",", $_GET['sarakkeet']) : ["number", "name", "manufacturer", "size", "price", "price_per_liter", "type", "origin", "vintage", "percentage", "energy"];
 
-$table_creator = new TableCreator($COLUMNS);
+try {
+    $table_creator = new TableCreator($COLUMNS);
+} catch (Exception $ex) {
+    die("Saraketta ei tunnistettu!");
+}
+
 
 $page = max(0, (int)($_GET['sivu'] ?? 0));
 $amount = min(100, max(1, (int)($_GET['maara'] ?? 25)));
