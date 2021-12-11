@@ -10,12 +10,12 @@ $COLUMNS=["number","name","manufacturer","size","price","price_per_liter","type"
 $page = max(0, (int)($_GET['sivu'] ?? 0));
 $amount = min(100, max(1, (int)($_GET['maara'] ?? 25)));
 
-$min_price = $_GET["min-hinta"];
-$max_price = $_GET["max-hinta"];
-$min_size = $_GET['min-koko'];
-$max_size = $_GET["max-koko"];
-$type = $_GET["tyyppi"];
-$origin = $_GET["maa"];
+$min_price = $_GET["min-hinta"] ?? null;
+$max_price = $_GET["max-hinta"] ?? null;
+$min_size = $_GET['min-koko'] ?? null;
+$max_size = $_GET["max-koko"] ?? null;
+$type = $_GET["tyyppi"] ?? null;
+$origin = $_GET["maa"] ?? null;
 
 $db->migrate_db();
 $latest_import_batch = $db->get_latest_import_batch();
