@@ -1,7 +1,6 @@
 <?php
-/** Table HTML creation */
 
-// TODO; Merge This file into the project properly and complete the displaying.
+/** Table HTML creation based on the columns and drinks, as well as currently applied filters as the default values for the html form. */
 
 require_once "model.php";
 
@@ -39,7 +38,7 @@ class TableCreator {
 		foreach ($columns_to_display as $column_to_display) {
 			assert(is_string($column_to_display));
 			if (!array_key_exists($column_to_display, TableCreator::COLUMN_NAMES))
-			throw new Exception("Error in configured columns to display: Unknown column");
+				throw new Exception("Error in configured columns to display, unknown column: '$column_to_display'");
 		}
 
 		$this->columns_to_display = $columns_to_display;
@@ -50,11 +49,11 @@ class TableCreator {
 		$val = "<table><thead>";
 		$val .= $this->create_header_row();
 		$val .= $this->create_filter_row();
-		
+
 		$val .= "</thead><tbody>";
 		$val .= $this->create_body_rows($drinks);
 		$val .= "</tbody></table>";
-		
+
 		return $val;
 	}
 
@@ -65,8 +64,8 @@ class TableCreator {
 		foreach ($this->columns_to_display as $column_to_display) {
 			$val .= "<th>" . TableCreator::COLUMN_NAMES[$column_to_display] . "</th>";
 		}
-		
-		
+
+
 		$val .= "</tr>";
 		return $val;
 	}
