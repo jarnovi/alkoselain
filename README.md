@@ -2,7 +2,7 @@
 
 A simple site to browse Alko's listings, created for a school project.
 
-![Logo](./static/logo.svg)
+![Logo](./src/logo.svg)
 
 The project hopefully fulfills all the listed requirements:
 
