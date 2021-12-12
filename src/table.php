@@ -36,7 +36,7 @@ class TableCreator {
 		if (count($columns_to_display) <= 0)
 		throw new Exception("Error in configured columns to display: Need at least 1 column");
 		foreach ($columns_to_display as $column_to_display) {
-			assert(is_string($column_to_display));
+			if (!is_string($column_to_display)) throw new Exception("$column_to_display is not a string");
 			if (!array_key_exists($column_to_display, TableCreator::COLUMN_NAMES))
 				throw new Exception("Error in configured columns to display, unknown column: '$column_to_display'");
 		}
@@ -107,7 +107,7 @@ class TableCreator {
 	{
 		$val = "";
 		foreach ($drinks as $drink) {
-			assert($drink instanceof Drink);
+			if (!($drink instanceof Drink)) throw new Exception("a drink isn't instanceof drink!");
 
 			$val .= "<tr>";
 

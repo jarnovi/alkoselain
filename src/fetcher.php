@@ -7,7 +7,7 @@ function fetch_xlxs(): string
 	// Initialize a file URL to the variable
 	$url = 'https://www.alko.fi/INTERSHOP/static/WFS/Alko-OnlineShop-Site/-/Alko-OnlineShop/fi_FI/Alkon%20Hinnasto%20Tekstitiedostona/alkon-hinnasto-tekstitiedostona.xlsx';
 	$res = file_get_contents($url);
-	assert($res != false);
+	if ($res == false) throw new Exception("Couldn't download file!");
 	return $res;
 }
 

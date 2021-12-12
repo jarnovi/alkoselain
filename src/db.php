@@ -65,9 +65,9 @@ class DB
         $result = $this->mysqli->query(
             "SELECT id, date FROM import_batch WHERE completed = true ORDER BY id DESC LIMIT 1"
         );
-        assert($result != false);
+		if ($result == false) throw new Exception("Couldn't create query!");
         $result = $result->fetch_assoc();
-        assert($result !== false);
+		if ($result == false) throw new Exception("Couldn't fetch_assoc query result!");
         if ($result === null) return null;
         $import_batch = new ImportBatch();
         $import_batch->id = $result["id"];
@@ -90,17 +90,19 @@ class DB
         $sql .= " LIMIT " . $query->start . ", " . $query->amount . ";";
 
         $smtp = $this->mysqli->prepare($sql);
-        assert($smtp != false);
+		if ($smtp == false) throw new Exception("Couldn't prepare smtp!");
 
         $param_types = $query->get_bind_param_types();
         $param_values = $query->get_bind_param_values();
         if ($param_types != null && $param_values != null) {
-            assert($smtp->bind_param($param_types, ...$param_values));
+			if ($smtp->bind_param($param_types, ...$param_values) == false)
+				throw new Exception("Couldn't bind_param!");
         }
 
-        assert($smtp->execute());
+		if ($smtp->execute() == false) throw new Exception("Couldn't exec smtp!");
+
         $result = $smtp->get_result();
-        assert($result != false);
+		if ($result == false) throw new Exception("Couldn't get smtp result!");
 
         $drinks = [];
 
@@ -124,10 +126,10 @@ class DB
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
         );
 
-        assert($smtp != false);
-        assert($this->mysqli->begin_transaction());
+		if ($smtp == false) throw new Exception("Couldn't prepare smtp!");
+		if ($this->mysqli->begin_transaction() == false) throw new Exception("Couldn't begin transaction!");
         foreach ($drinks as $drink) {
-            assert($smtp->bind_param(
+			if ($smtp->bind_param(
                 "iissisiisiii",
                 $drink->import_batch,
                 $drink->number,
@@ -141,11 +143,10 @@ class DB
                 $drink->vintage,
                 $drink->promille,
                 $drink->kcal_per_hundred_ml,
-            ));
-            assert($drink instanceof Drink);
-            assert($smtp->execute());
+			) == false) throw new Exception("Couldn't bind_param!");
+			if ($smtp->execute() == false) throw new Exception("Couldn't exec!");
         }
-        $this->mysqli->commit();
+		if ($this->mysqli->commit() == false) throw new Exception("Couldn't commit!");
     }
 
     function create_import_batch(DateTime $date): int
@@ -163,7 +164,7 @@ class DB
     function set_import_batch_as_completed(int $id, bool $completed = true)
     {
         $result = $this->mysqli->query("UPDATE import_batch SET completed = $completed WHERE id = $id;");
-        assert($result !== false);
+		if ($result == false) throw new Exception("Couldn't set as complete!");
     }
 }
 
