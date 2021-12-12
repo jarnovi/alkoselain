@@ -17,12 +17,12 @@ class DB
 
     public function migrate_db()
     {
-        assert($this->mysqli->begin_transaction());
+		if (!$this->mysqli->begin_transaction()) throw new Exception("Couldn't start db transaction!");
 
         try {
             $dbname = getenv("DB_DATABASE");
             $result = $this->mysqli->query("CREATE DATABASE IF NOT EXISTS $dbname;");
-            assert($result != false);
+			if ($result == false) throw new Exception("Couldn't create db!");
 
             $result = $this->mysqli->query(
                 "CREATE TABLE IF NOT EXISTS import_batch (
@@ -31,7 +31,7 @@ class DB
                     completed BOOLEAN NOT NULL DEFAULT FALSE
                 );"
             );
-            assert($result != false);
+			if ($result == false) throw new Exception("Couldn't create import_batch!");
 
             $result = $this->mysqli->query(
                 "CREATE TABLE IF NOT EXISTS drink (
@@ -51,9 +51,9 @@ class DB
                     FOREIGN KEY(import_batch) REFERENCES import_batch(id)
                 );"
             );
-            assert($result != false);
+			if ($result == false) throw new Exception("Couldn't create drink!");
 
-            assert($this->mysqli->commit());
+			if (!$this->mysqli->commit()) throw new Exception("Couldn't commit transaction!");
         } catch (mysqli_sql_exception $exception) {
             $this->mysqli->rollback();
             throw $exception;
