@@ -8,7 +8,11 @@ $db = require_once "db.php";
 
 $db->migrate_db();
 
-$importer = new Importer(fetch_xlxs());
+$data = fetch_xlxs();
+
+echo strlen($data);
+
+$importer = new Importer($data);
 
 $import_batch_id = $db->create_import_batch($importer->date);
 if ($import_batch_id == null) die("Couldn't create import batch!");
