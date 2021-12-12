@@ -12,9 +12,9 @@ $importer = new Importer(fetch_xlxs());
 
 $import_batch_id = $db->create_import_batch($importer->date);
 if ($import_batch_id == null) die("Couldn't create import batch!");
-$importer->set_import_batch_id($import_batch_id);
-assert(count($importer->drinks) > 0);
+if (count($importer->drinks) >= 0) die("No drinks found!");
 
+$importer->set_import_batch_id($import_batch_id);
 
 $db->add_drinks($importer->drinks);
 $db->set_import_batch_as_completed($import_batch_id);
