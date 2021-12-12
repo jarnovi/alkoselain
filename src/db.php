@@ -151,11 +151,10 @@ class DB
     function create_import_batch(DateTime $date): int
     {
         $smtp = $this->mysqli->prepare("INSERT INTO import_batch (date) VALUES (?);");
-        assert($smtp != false);
+		if ($smtp == false) throw new Exception("Couldn't create smtp!");
         $date_str = $date->format("Y-m-d H:i:s");
-        assert($smtp->bind_param("s", $date_str));
-
-        assert($smtp->execute() != false);
+		if ($smtp->bind_param("s", $date_str) == false) throw new Exception("Couldn't bind param!");
+		if ($smtp->execute() == false) throw new Exception("Couldn't execute!");
         $id = $this->mysqli->insert_id;
 
         return $id;
