@@ -8,7 +8,7 @@ $db = require_once "db.php";
 
 $db->migrate_db();
 
-$importer = new Importer(fetch_xlxs($url, $target));
+$importer = new Importer(fetch_xlxs());
 
 $import_batch_id = $db->create_import_batch($importer->date);
 assert($import_batch_id  != null);
