@@ -48,7 +48,11 @@ Then just run `docker-compose up` in this directory and it'll start a container 
 
 ### Production
 
-Setup nginx to serve the `src/` folder and the `static/` folder, or copy files from each to a combined folder and only serve files from there.
+Setup a mariadb (mysql) database and create an user and a database for this project.
+
+Then setup nginx to serve the `src/` folder.
+It should process the php files with php-fpm (you can read the [nginx.conf](./config/nginx.conf) for an example).
+The php-fpm process should also have the following variables set for the database configuration: `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_DATABASE`.
 
 ## Refreshing the data
 
