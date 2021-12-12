@@ -28,6 +28,10 @@ $origin = $_GET["maa"] ?? null;
 $db->migrate_db();
 $latest_import_batch = $db->get_latest_import_batch();
 
+if ($latest_import_batch == null) {
+	die("Admin needs to refresh data to generate at least a single import batch!");
+}
+
 $filter_query_generator = new FilterQueryGenerator($latest_import_batch->id);
 $filter_query_generator->amount = $amount;
 $filter_query_generator->start = $page * $amount;
