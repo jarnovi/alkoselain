@@ -25,20 +25,20 @@ $db->set_import_batch_as_completed($import_batch_id);
 <html lang="fi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlkoSelain</title>
-    <link href="./style.css" rel="stylesheet" />
-    <meta http-equiv="refresh" content="10; url=index.php">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AlkoSelain</title>
+	<link href="./style.css" rel="stylesheet" />
+	<meta http-equiv="refresh" content="10; url=index.php">
 </head>
 
 <body>
-    <main>
-        <h1>Raportti</h1>
-        <?= ($data ? "<p>Data päivitetty onnistuneesti.</p>" : "<p> Dataa ei saatu haettua! </p>") ?>
-        <p>Siirry <a href="index.php">takaisin.</a></p>
-    </main>
+	<main>
+		<h1>Raportti</h1>
+		<p>Data päivitetty</p>
+		<p>Siirry <a href="index.php">takaisin.</a></p>
+	</main>
 </body>
 
 </html>
