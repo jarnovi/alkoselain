@@ -11,7 +11,7 @@ $db->migrate_db();
 $importer = new Importer(fetch_xlxs());
 
 $import_batch_id = $db->create_import_batch($importer->date);
-assert($import_batch_id  != null);
+if ($import_batch_id == null) die("Couldn't create import batch!");
 $importer->set_import_batch_id($import_batch_id);
 assert(count($importer->drinks) > 0);
 
