@@ -78,12 +78,20 @@ class TableCreator {
 			$val .= "<th>";
 			switch ($column) {
 				case "size":
-					$val .= "<input name='min-koko' type='number' min='0' step='0.1' placeholder='0.5L' value='" . $this->min_size / 1000 ?? "" . "' />";
-					$val .= "<input name='max-koko' type='number' min='0' step='0.1' placeholder='0.8L' value='" . $this->max_size / 1000 ?? "" . "'  />";
+					$val .= "<input name='min-koko' type='number' min='0' step='0.1' placeholder='0.5L' value='";
+					if ($this->min_size !== null) $val .= $this->min_size / 1000;
+					$val .= "' />";
+					$val .= "<input name='max-koko' type='number' min='0' step='0.1' placeholder='0.8L' value='";
+					if ($this->max_size !== null) $val .= $this->max_size / 1000;
+					$val .= "' />";
 					break;
 				case "price":
-					$val .= "<input name='min-hinta' type='number' min='0' step='0.01' placeholder='0.00€' value='" . ($this->min_price / 100 ?? "") . "' />";
-					$val .= "<input name='max-hinta' type='number' min='0' step='0.01' placeholder='20.00€' value='" . ($this->max_price / 100 ?? "") . "' />";
+					$val .= "<input name='min-hinta' type='number' min='0' step='0.01' placeholder='0.00€' value='";
+					if ($this->min_price !== null) $val .= $this->min_price / 100;
+					$val .= "' />";
+					$val .= "<input name='max-hinta' type='number' min='0' step='0.01' placeholder='20.00€' value='";
+					if ($this->max_price !== null) $val .= $this->max_price / 100;
+					$val .= "' />";
 					break;
 				case "type":
 					$val .= "<input name='tyyppi' type='text' placeholder='Oluet' value='$this->type' />";
