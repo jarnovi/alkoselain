@@ -14,11 +14,11 @@ class Importer {
     private $replacements = array();
 
 
-    function __construct(string $file_path)
+    function __construct(string $file_contents)
     {
-        //$xlsx = SimpleXLSX::parseData($file_contents);
-        $xlsx = SimpleXLSX::parse($file_path);
-        if (!$xlsx->success()) throw new Exception($xlsx->error());
+        $xlsx = SimpleXLSX::parseData($file_contents);
+        //$xlsx = SimpleXLSX::parse($file_path);
+		if (!$xlsx->success()) throw new Exception($xlsx->error());
         $rows = $xlsx->rows();
 
         $this->patterns[0] = '/,/';
