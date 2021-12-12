@@ -82,8 +82,8 @@ class TableCreator {
 					$val .= "<input name='max-koko' type='number' min='0' step='0.1' placeholder='0.8L' value='" . $this->max_size / 1000 ?? "" . "'  />";
 					break;
 				case "price":
-					$val .= "<input name='min-hinta' type='number' min='0' step='0.01' placeholder='0.00€' value='" . $this->min_price / 100 ?? "" . "' />";
-					$val .= "<input name='max-hinta' type='number' min='0' step='0.01' placeholder='20.00€' value='" . $this->max_price / 100 ?? "" . "' />";
+					$val .= "<input name='min-hinta' type='number' min='0' step='0.01' placeholder='0.00€' value='" . ($this->min_price / 100 ?? "") . "' />";
+					$val .= "<input name='max-hinta' type='number' min='0' step='0.01' placeholder='20.00€' value='" . ($this->max_price / 100 ?? "") . "' />";
 					break;
 				case "type":
 					$val .= "<input name='tyyppi' type='text' placeholder='Oluet' value='$this->type' />";
