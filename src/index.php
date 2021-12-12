@@ -22,6 +22,8 @@ $min_price = $_GET["min-hinta"] ? (int)(((float)$_GET["min-hinta"]) * 100) : nul
 $max_price = $_GET["max-hinta"] ? (int)(((float)$_GET["max-hinta"]) * 100) : null;
 $min_size = $_GET['min-koko'] ? (int)(((float)$_GET["min-koko"]) * 1000) : null;
 $max_size = $_GET["max-koko"] ? (int)(((float)$_GET["max-koko"]) * 1000) : null;
+$min_energy = (int)$_GET["min-energia"] ?? null;
+$max_energy = (int)$_GET["max-energia"] ?? null;
 $type = $_GET["tyyppi"] ?? null;
 $origin = $_GET["maa"] ?? null;
 
@@ -44,14 +46,21 @@ if ($max_price != null) {
     $table_creator->max_price = $max_price;
     $filter_query_generator->filter_by_max_price($max_price);
 }
-
 if ($min_size != null) {
     $table_creator->min_size = $min_size;
-    $filter_query_generator->filter_by_min_price($min_size);
+    $filter_query_generator->filter_by_min_size($min_size);
 }
 if ($max_size != null) {
     $table_creator->max_size = $max_size;
-    $filter_query_generator->filter_by_max_price($max_size);
+    $filter_query_generator->filter_by_max_size($max_size);
+}
+if ($min_energy != null) {
+    $table_creator->min_energy = $min_energy;
+    $filter_query_generator->filter_by_min_energy($min_energy);
+}
+if ($max_energy != null) {
+    $table_creator->max_energy = $max_energy;
+    $filter_query_generator->filter_by_max_energy($max_energy);
 }
 if ($type != null) {
     $table_creator->type = $type;
