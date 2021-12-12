@@ -40,6 +40,9 @@ Uses [SimpleXLSX](https://github.com/shuchkin/simplexlsx) for importing the spre
 
 ## Setup
 
+The minimum supported PHP version is PHP8.0.
+Most likely PHP7.4 should work as well, but it's not been validated.
+
 ### Dev
 
 The setup is made to be reliable and easy for development with docker-compose.
