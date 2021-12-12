@@ -18,10 +18,10 @@ try {
 $page = max(0, (int)($_GET['sivu'] ?? 0));
 $amount = min(100, max(1, (int)($_GET['maara'] ?? 25)));
 
-$min_price = $_GET["min-hinta"] ? (int)((float)$_GET["min-hinta"] * 100) : null;
-$max_price = $_GET["max-hinta"] ? (int)((float)$_GET["max-hinta"] * 100) : null;
-$min_size = $_GET['min-koko'] ? (int)((float)$_GET["min-koko"] * 1000) : null;
-$max_size = $_GET["max-koko"] ? (int)((float)$_GET["max-koko"] * 1000) : null;
+$min_price = $_GET["min-hinta"] ? (int)(((float)$_GET["min-hinta"]) * 100) : null;
+$max_price = $_GET["max-hinta"] ? (int)(((float)$_GET["max-hinta"]) * 100) : null;
+$min_size = $_GET['min-koko'] ? (int)(((float)$_GET["min-koko"]) * 1000) : null;
+$max_size = $_GET["max-koko"] ? (int)(((float)$_GET["max-koko"]) * 1000) : null;
 $type = $_GET["tyyppi"] ?? null;
 $origin = $_GET["maa"] ?? null;
 
