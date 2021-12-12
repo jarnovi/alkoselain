@@ -9,9 +9,6 @@ $db = require_once "db.php";
 $db->migrate_db();
 
 $data = fetch_xlxs();
-
-echo strlen($data);
-
 $importer = new Importer($data);
 
 $import_batch_id = $db->create_import_batch($importer->date);

@@ -70,6 +70,7 @@ class Importer {
         $drink->kcal_per_hundred_ml = (int)$row[27];
 
         $drink->validate(true);
+		error_log("OK");
         return $drink;
     }
 }
